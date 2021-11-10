@@ -1,0 +1,46 @@
+\documentclass[../SOP.tex]{subfile}
+
+\begin{document}
+  \begin{equation*}
+    f(x)=a_1x+b_1+a_2x+b_2
+  \end{equation*}
+  \begin{align*}
+    f(x)&=(a_1a_2)x+(b_1+b_2)\\
+    f(x)&=ax+b
+  \end{align*}
+\begin{equation*}
+  O_i=\mathbf{W_i}\sum O_{i-1}(O_{i-2}(\dots))
+\end{equation*}
+  \begin{align*}
+    f(x)&= a_1(a_2x+b_2)+b_1\\
+    f(x)&= a_1a_2x + a_1b_2 +b_1\\
+    f(x)&= ax+b
+  \end{align*}
+\begin{gather*}
+  \sigma(x)=\frac{1}{1+e^{-x}}\\
+  ReLU(x)=\begin{Bmatrix}
+    x>0, & x\\
+    x\leq 0, & 0
+  \end{Bmatrix}
+\end{gather*}
+\begin{equation}
+  \mathbf{x}=\begin{bmatrix}
+    x_j \\ x_{j+1} \\ \vdots
+  \end{bmatrix}
+  =
+  \begin{bmatrix}
+    w_{00} & w_{01} & \cdots & w_{0k} \\
+    w_{10} & w_{11} & \cdots & w_{1k} \\
+    \vdots & \vdots & \ddots & \vdots \\
+    w_{j0} & w_{j1} & \cdots & w_{jk}
+  \end{bmatrix}
+  \begin{bmatrix}
+    o_0 \\ o_1 \\ \vdots \\ o_k
+  \end{bmatrix}
+  \label{eq:inputEx}
+\end{equation}
+\begin{equation}
+  \mathbf{x}=\mathbf{W}\mathbf{o}_{-1}
+  \label{eq:inputSimp}
+\end{equation}
+\end{document}

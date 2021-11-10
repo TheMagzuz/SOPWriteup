@@ -1,0 +1,85 @@
+\documentclass[../SOP.tex]{subfile}
+
+\begin{document}
+\section{Design af et neuralt netværk}
+
+\subsection{Datarepræsentationer}
+En computer arbejder kun med tal. Det er derfor nødvendigt at kunne repræsentere et billede som tal. Et billede inddeles i diskrete enheder kaldet \emph{pixels}. Da der vil kun betragtes gråskalabilleder, vil hver pixel, $p$ kun have en værdi, $0\leq p \leq 1$, $p\in\R$ , hvor en pixel med værdien $0$ repræsenterer en helt sort pixel og en pixel med værdien $1$ repræsenterer en helt hvid pixel\footnote{I det oprindelige datasæt gælder det at $0\leq p \leq 255$, $p\in\Z$, men dette skaleres}. Billedet kan nu repræsenteres som et gitter af reelle tal, $0\leq p \leq 1$. 
+\begin{figure}[ht]
+  \centering
+  \includestandalone[scale=1.5]{Images/imageformat}
+  \caption{Et eksempel på et billede, med pixelværdier indsat}
+  \label{fig:imageformat}
+\end{figure}
+Billedets rækker lægges nu side om side, for at gøre datastrukturen endimensionel, så den kan repræsenteres simpelt på computeren.\\
+
+Nu hvor inputdataen kan repræsenteres, mangler formaten for netværkets output. En umiddelbar mulighed vil være at at give netværket en enkelt outputknude, hvis værdi vil fortolkes som netværkets ``gæt''. Her er det dog vigtigt at overveje hvilke værdier der skal være mulige for netværket at gætte. I tilfældet af den enkelte outputknude vil netværkets mulige gæt, $g$, være $g \in Vm(\alpha)$. Dette er ikke ideelt, da det som regel vil gælde at $Vm(\alpha)\in\R$, og netværkets gæt vil ideelt være $g\in \Z$, $0\leq g \leq 9$. En mulig løsning er at runde resultatet til et heltal, men dette kan være problematisk, da der nu kasseres information fra netværket. Desuden vil der senere være brug for en funktion der bestemmer, hvor langt netværket har været fra det korrekte svar. Her vil denne løsning vise sig problematisk. Hvis det korrekte svar eksempelvis er 3, og netværket har svaret 7, vil dens svar, ifølge kostfunktionen, være ``mere forkert''\footnote{Dvs. fejlfunktionen vil have en større værdi} end hvis netværket havde svaret 5. Det giver dog ikke mening at se på svarets numeriske værdi for at finde ud af hvor tæt det er på det korrekte svar, idet hvert tal i dette tilfælde kan betragtes som forskellige kategorier.\\
+Løsningen til dette problem er at gøre netværkets outputlag til 10 knuder, tilsvarende de 10 mulige svar fra netværket. Hver outputknude fortolkes derfor som chancen, ifølge netværket, for at billedet indeholder det tal. Netværkets svar vil fortolkes som indekset af den knude der har den største værdi. Denne teknik kaldes \emph{one-hot encoding}.
+
+\subsection{Outputfunktioner}
+Indtil videre svarer hver vægt til en lineær funktion, og en knude kan repræsenteres som en sum af lineære funktioner. Summen af et vilkårligt antal lineære funktioner, vil også give en lineær funktion (Se bevis \ref{pr:sumlin}).
+\begin{bevis}[Summen af lineære funktioner]\label{pr:sumlin}
+  Der er givet en funktion, $f(x)$, som summen af to linære funktioner:
+  \begin{equation*}
+    f(x)=a_1x+b_1+a_2x+b_2
+  \end{equation*}
+  $a_1$ og $a_2$ samles som faktorer af $x$:
+  \begin{align*}
+    f(x)&=(a_1a_2)x+(b_1+b_2)\\
+    f(x)&=ax+b
+  \end{align*}
+  \hfill $\square$
+\end{bevis}
+Derudover vil hver knude, der ikke ligger umiddelbart før inputlaget, kunne repræsenteres som en kæde af linære funktioner:
+\begin{equation*}
+  O_i=\mathbf{W_i}\sum O_{i-1}(O_{i-2}(\dots))
+\end{equation*}
+\begin{bevis}[Kædning af linære funktioner]\label{pr:chainlin}
+  Der er givet en funktion, $f(x)$, som er en kæde af linære funktioner:
+  \begin{align*}
+    f(x)&= a_1(a_2x+b_2)+b_1\\
+    f(x)&= a_1a_2x + a_1b_2 +b_1\\
+    f(x)&= ax+b
+  \end{align*}
+  \hfill $\square$
+\end{bevis}
+Da alle enkelte elementer af netværket kan beskrives af linære funktioner, vil outputlaget også kunne beskrives som en vektor af linære funktioner. Dette er ikke ideelt, da det er sandsynligt, at dataen der ønskes at lære ikke er lineært. Der skal derfor introduceres et ikke-lineært element til netværket. Dette er hvad outputfunktioner bruges til. I stedet for at sende den vægtede sum af de forgående værdier direkte videre til det næste lag, bliver de først behandlet af en outputfunktion. To eksempler på almindelige outputfunktioner er sigmoid-funktionen og ReLU \parencite{activation}:
+\begin{gather*}
+  \sigma(x)=\frac{1}{1+e^{-x}}\\
+  ReLU(x)=\begin{Bmatrix}
+    x>0, & x\\
+    x\leq 0, & 0
+  \end{Bmatrix}
+\end{gather*}
+Der vil her benyttes sigmoid-funktionen som outputfunktion, primært fordi dens værdimængde er $0 < \sigma(x) < 1$, hvilket giver en elegant repræsentation for netværkets output som sandsynligheder.
+\subsection{Vægte}
+Hvert lag af vægte kan repræsenteres som en matrix, $\mathbf{W}$, hvor hvert element $w_{jk}$ repræsenterer vægten fra knude $k$ til knude $j$. Dette betyder at inputværdierne for et lag kan bestemmes som:
+\begin{equation}
+  \mathbf{x}=\begin{bmatrix}
+    x_j \\ x_{j+1} \\ \vdots
+  \end{bmatrix}
+  =
+  \begin{bmatrix}
+    w_{00} & w_{01} & \cdots & w_{0k} \\
+    w_{10} & w_{11} & \cdots & w_{1k} \\
+    \vdots & \vdots & \ddots & \vdots \\
+    w_{j0} & w_{j1} & \cdots & w_{jk}
+  \end{bmatrix}
+  \begin{bmatrix}
+    o_0 \\ o_1 \\ \vdots \\ o_k
+  \end{bmatrix}
+  \label{eq:inputEx}
+\end{equation}
+Mere simpelt skrives dette som:
+\begin{equation}
+  \mathbf{x}=\mathbf{W}\mathbf{o}_{-1}
+  \label{eq:inputSimp}
+\end{equation}
+Hvor $\mathbf{o}_{-1}$ er outputværdierne af det forgående lag.
+
+\subsection{Potentielle problemer}
+\subsubsection{Underfitting}
+Underfitting refererer til, når en model ikke kan lære det givne datasæt. Dette sker som regel enten fordi modellen ikke er stor nok (F.eks. hvis et neuralt netværk har for lidt knuder/lag), eller fordi modellen ikke kan modellere egenskaber af det givne datasæt (F.eks. ved at forsøge at bruge et neuralt netværk til at modellere sekventiel data, som tekst). Underfitting er relativt let at identificere, idet det kendetegnes ved en lav præcision/høj kostværdi, både ved træning af netværket og ved evaluering af netværket. \parencite{overfit}
+\subsubsection{Overfitting}
+Overfitting referer til når en Machine Learning model lærer datasættet for godt. Her indlærer modellen også støjen i datasættet, hvilket gør at den har lært datasættet ``udenad''. Dette skyldes som regel en for stor model, eller et for lille datasæt. Overfitting kan identificeres ved at have to datasæt: Et træningssæt, som bruges til at træne modellen, og et testsæt, som udelukkende bruges til at evaluere modellen. Da modellen aldrig trænes på testsættet, vil den have en lav præcision på testsættet hvis modellen er overfit. \parencite{overfit}
+\end{document}

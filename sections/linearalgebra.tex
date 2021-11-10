@@ -1,0 +1,213 @@
+\documentclass[../SOP.tex]{subfile}
+
+\begin{document}
+\section{Grundlæggende lineær algebra}
+Lineær algebra er læren om \emph{vektorer} og \emph{matricer}. Det antages, at vektorer er velkendte, i form af \emph{geometriske vektorer} som ofte bruges til at repræsentere punkter i planet eller rummet. Geometriske vektorer skrives som regel med en pil over bogstavet, f.eks. $\vec{v}$. % https://www.uvm.dk/gymnasiale-uddannelser/fag-og-laereplaner/laereplaner-2017/htx-laereplaner-2017
+\subsection{Vektorer}
+I den lineære algebra benyttes der dog et bredere vektorbegreb: En samling af $n$ værdier. Dette skrives også som vektorer er elementer af $\R^n$. En vektor er altså en vilkårlig lang række af reelle tal. Disse skrives som regel med et lille, fedt bogstav:
+\begin{equation*}
+  \bm{v} = \begin{bmatrix} 1 \\ 2 \\ 3 \\ 4 \end{bmatrix} \in \R^4
+\end{equation*}
+Generelle vektorer følger generelt de samme regneregler som geometriske vektorer. De kan lægges sammen:
+\begin{equation*}
+  \begin{bmatrix}
+    a_1 \\ b_1 \\ c_1 \\ \vdots
+  \end{bmatrix}
+  +
+  \begin{bmatrix}
+   a_2 \\ b_2 \\ c_2 \\ \vdots
+  \end{bmatrix}
+  =
+  \begin{bmatrix}
+    a_1+a_2 \\ b_1+b_2 \\ c_1+c_2 \\ \vdots
+  \end{bmatrix}
+\end{equation*}
+Vektorer kan også multipliceres med en \emph{skalar} (et tal), $\lambda\in\R$:
+\begin{equation*}
+  \lambda 
+  \begin{bmatrix}
+    a \\ b \\ c \\ \vdots
+  \end{bmatrix}
+  =
+  \begin{bmatrix}
+    \lambda a \\ \lambda b \\ \lambda c \\ \vdots
+  \end{bmatrix}
+\end{equation*}
+Skalarproduktet af to vektorer kan også bestemmes med samme fremgangsmåde som ved geometriske vektorer:
+\begin{equation*}
+  \begin{bmatrix}
+    a_1 \\ b_1 \\ c_1 \\ \vdots
+  \end{bmatrix}
+  \cdot
+  \begin{bmatrix}
+    a_2 \\ b_2 \\ c_2 \\ \vdots
+  \end{bmatrix}
+  = a_1a_2 + b_1b_2 + c_1c_2
+\end{equation*}
+Det er desuden nyttigt at kende til transponeringsoperatoren, som omdanner kolonnevektorer til rækkevektorer og omvendt:
+\begin{gather*}
+  a=\begin{bmatrix}
+    a_1 \\ a_2 \\ \vdots
+  \end{bmatrix}
+  \\
+  a^T=\begin{bmatrix}
+    a_1 & a_2 & \cdots
+  \end{bmatrix}
+\end{gather*}
+Endeligt introduceres der det \emph{ydre produkt}, som giver en matrix af alle kombinationer af produkter mellem de to vektorer:
+\begin{equation*}
+  \begin{bmatrix}
+    a_1 \\ b_1 \\ c_1
+  \end{bmatrix}
+  \otimes
+  \begin{bmatrix}
+    a_2 \\ b_2 \\ c_2
+  \end{bmatrix}
+  =
+  \begin{bmatrix}
+  a_1a_2 & a_1b_2 & a_1c_2 \\
+  b_1a_2 & b_1b_2 & b_1c_2 \\
+  c_1a_2 & c_1b_2 & c_1c_2
+  \end{bmatrix}
+\end{equation*}
+ \parencite[pp. 17-18]{mml}
+\subsection{Matricer}
+Disse principper kan nu udvides yderligere ved at introducere \emph{matricer}. En matrix ligner en vektor, men består både af rækker og kolonner:
+\begin{equation*}
+  \mathbf{A}=\begin{bmatrix}
+    a_{11} & a_{12} & \cdots & a_{1n} \\
+    a_{21} & a_{22} & \cdots & a_{2n} \\
+    \vdots & \vdots & \ddots & \vdots \\
+    a_{m1} & a_{m2} & \cdots & a_{mn}
+  \end{bmatrix}
+  \in \R^{m\times n}
+\end{equation*}
+Omtrent de samme regler gælder matricer som der gør for vektorer.\\
+Addition:
+\begin{equation*}
+  \begin{bmatrix}
+    a_{11} & a_{12} & \cdots & a_{1n} \\
+    a_{21} & a_{22} & \cdots & a_{2n} \\
+    \vdots & \vdots & \ddots & \vdots \\
+    a_{m1} & a_{m2} & \cdots & a_{mn}
+  \end{bmatrix}
+  +
+  \begin{bmatrix}
+    b_{11} & b_{12} & \cdots & b_{1n} \\
+    b_{21} & b_{22} & \cdots & b_{2n} \\
+    \vdots & \vdots & \ddots & \vdots \\
+    b_{m1} & b_{m2} & \cdots & b_{mn}
+  \end{bmatrix}
+  =
+  \begin{bmatrix}
+    a_{11} + b_{11} & a_{12} + b_{12} & \cdots \\
+    a_{21} + b_{21} & a_{22} + b_{22} & \cdots \\
+    \vdots & \vdots & \ddots \\
+    a_{m1} + b_{m1} & a_{m2} + b_{m2} & \cdots 
+  \end{bmatrix}
+\end{equation*}
+Multiplikation med en skalar:
+\begin{equation*}
+  \lambda
+  \begin{bmatrix}
+    a_{11} & a_{12} & \cdots & a_{1n} \\
+    a_{21} & a_{22} & \cdots & a_{2n} \\
+    \vdots & \vdots & \ddots & \vdots \\
+    a_{m1} & a_{m2} & \cdots & a_{mn}
+  \end{bmatrix}
+  =
+  \begin{bmatrix}
+    \lambda a_{11} & \lambda a_{12} & \cdots & \lambda a_{1n} \\
+    \lambda a_{21} & \lambda a_{22} & \cdots & \lambda a_{2n} \\
+    \vdots & \vdots & \ddots & \vdots \\
+    \lambda a_{m1} & \lambda a_{m2} & \cdots & \lambda a_{mn}
+  \end{bmatrix}
+\end{equation*}
+
+Prikproduktet er en smule mere indviklet end ved vektorer, da der nu indføres endnu en dimension. Prikproduktet af to matricer, $\mathbf{A}\in\R^{m\times n}$, $\mathbf{B} \in \R^{n \times k}$, vil give en matrix, $\mathbf{C}\in\R^{m\times k}$. Hvert element i $\mathbf{C}$, $c_{ij}$ beregnes som:
+\begin{align*}
+  c_{ij} &= \sum_{l=1}^n a_{il}b_{lj}\\
+  i&=1,\dots,m\\
+  j&=1,\dots,k
+\end{align*}
+Dette kan forstås at tage alle elementer i række $i$ af $\mathbf{A}$ og multiplicere dem med det tilsvarende element i kolonne $j$ af $\mathbf{B}$, og summere alle disse produkter. Det skal bemærkes at prikproduktet \emph{ikke} er kommutativt, altså:
+\begin{equation*}
+  \mathbf{A}\cdot\mathbf{B}\neq\mathbf{B}\cdot\mathbf{A}
+\end{equation*}
+En af grundene til at dette gælder er at, for at kunne bestemme prikproduktet af to matricer, skal deres ``nabodimensioner'' være ens:
+\begin{gather*}
+  \underbrace{\mathbf{A}}_{n\times k}\cdot\underbrace{\mathbf{B}}_{k\times m}=\underbrace{\mathbf{C}}_{n\times m}\\
+  k=k\\
+  \underbrace{\mathbf{B}}_{k\times m}\cdot\underbrace{\mathbf{A}}_{n\times k}=\ ?\\
+  m\neq n
+\end{gather*}
+Bemærk at prikproduktet mellem en matrix og en vektor vil give:
+\begin{equation*}
+  \begin{bmatrix}
+    a_{11} & a_{12} \\
+    a_{21} & a_{22} \\
+    a_{31} & a_{32}
+  \end{bmatrix}
+  \cdot
+  \begin{bmatrix}
+    b_1 \\ b_2
+  \end{bmatrix}
+  =
+  \begin{bmatrix}
+    a_{11}b_1 + a_{12}b_2\\
+    a_{21}b_1 + a_{22}b_2 \\
+    a_{31}b_1 + a_{32}b_2
+  \end{bmatrix}
+\end{equation*}
+Matricer kan desuden, ligesom vektorer, transponeres. Dette gøres ved at bytte om på de to akser i matricen:
+\begin{gather*}
+  A_{ij}=(A^T)_{ji}\\
+  A\in \R^{n\times m}\\
+  A^T \in \R^{m\times n}
+\end{gather*}
+I programmering er det ofte brugbart at bestemme det elementmæssige produkt af to vektorer eller matricer, kaldet \emph{Hadamardproduktet}:
+\begin{equation*}
+  \begin{bmatrix}
+  a_1 \\ b_1 \\ c_1
+  \end{bmatrix}
+  \odot
+  \begin{bmatrix}
+    a_2 \\ b_2 \\ c_2
+  \end{bmatrix}
+  =
+  \begin{bmatrix}
+    a_1a_2 \\ b_1b_2 \\ c_1c_2
+  \end{bmatrix}
+\end{equation*}
+\parencite[pp. 22-23]{mml}
+
+
+\subsection{Funktioner}
+En del af den lineære algebra, som især er brugbar i Machine Learning, er at have $\R^n$ eller $\R^{n\times m}$ som definitionmængden og/eller værdimængden af en funktion. En mere kompakt notation for at definere en funktions definition- og værdimængde indføres her. En funktion $f$, med definitionmængde $Dm$ og værdimængde $Vm$ kan skrives som:
+\begin{equation*}
+  f\colon Dm \rightarrow Vm
+\end{equation*}
+F.eks. vil  en funktion, som tager en vektor, $\mathbf{v}\in\R^3$ og giver en funktionsværdi $f(\mathbf{v})\in\R$ kunne skrives som:
+\begin{equation*}
+  f\colon \R^3 \rightarrow \R
+\end{equation*}
+For fuldt ud at kunne bruge disse funktioner i Machine Learning, skal de kunne differentieres. Dette gøres ved hjælp af \emph{partiel differentiering}. Ved en partiel differentiering betragter man den ene af variablerne i funktionen som en variabel, og de andre som konstanter. Eksempel:
+\begin{gather*}
+  f(x,y)=xy^2+2+x^2\\
+  \pfrac{f}{x}=y^2+2x\\
+  \pfrac{f}{y}=2xy
+\end{gather*}
+Disse kan samles i en matrix for at danne det der kaldes \emph{gradienten} af funktionen:
+\begin{equation*}
+  \nabla f(x,y) = \begin{bmatrix}
+    \pfrac{f}{x} & \pfrac{f}{y}
+  \end{bmatrix}
+  =
+  \begin{bmatrix}
+    y^2+2x & 2xy
+  \end{bmatrix}
+\end{equation*}
+\parencite{mml}\\
+Når gradienten evalueres ved et punkt på grafen, vil den give retningen af den stejleste stigning \parencite{gradient}. Det må derfor naturligt følge, at den negative gradient vil være retningen af den stejleste nedstigning.
+
+\end{document}

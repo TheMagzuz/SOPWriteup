@@ -1,0 +1,24 @@
+\documentclass[../SOP.tex]{standalone}
+
+\usepackage{tikz}
+\usetikzlibrary{calc}
+
+\begin{document}
+
+
+\begin{tikzpicture} [shorten >=1pt,->,draw=black,node distance=2cm, text height=2ex]
+  \tikzstyle{every pin edge}=[<-, shorten <= 1pt]
+  \tikzstyle{neuron}=[circle,fill=black!25,minimum size=17pt,inner sep=0pt, text width=18pt, text centered]
+  \tikzstyle{annot} = [text width=4em, text centered,node distance=1cm]
+
+  \node[neuron] (I) at (0, 0) {};
+  \node[neuron, right of =I] (O) {};
+  \path (I) edge (O);
+
+  \node[annot, above of=I] (ti) {Input};
+  \node[annot, above of=I] (w) at ($(I)!0.5!(O)$) {w};
+  \node[annot, above of=O] (to) {Output};
+
+\end{tikzpicture}
+
+\end{document}

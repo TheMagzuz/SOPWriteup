@@ -1,0 +1,82 @@
+\documentclass[../SOP.tex]{subfile}
+
+\begin{document}
+\section{Implementation}
+Når der er dannet et matematisk grundlag for virkemåden af neurale netværk, kan et sådant netværk implementeres. Dette vil gøres i Python 3.8, dels på grund af den kompakte syntaks, men primært på grund af biblioteket \texttt{numpy}, som tillader hurtige matematiske operationer når der arbejdes med matricer. Netværket der implementeres vil bestå af 3 lag: Et inputlag på 784 knuder (tilsvarende træningseksemplernes 28x28 pixels), et skjult lag på 32 knuder og et ouputlag på 10 knuder. Denne implementation understøtter både et vilkårligt antal lag og knuder i lagene. 
+\subsection{Numpy}
+\texttt{numpy}-biblioteket (som i programmet importeres med navnet \texttt{np}) tilbyder klassen \texttt{ndarray}, som kan repræsentere et array med et vilkårligt antal dimensioner. I dette tilfælde vil denne klasse bruges til at repræsentere vektorer og matricer. Der defineres dog nogle operationer, som går imod den almindelige matematiske praksis:\\
+*-operatoren bruges til det elementmæssige produkt:
+\begin{minted}{python3}
+import numpy as np
+a = np.array([1,2,3,4])
+b = np.array([0,1,2,3])
+c = a * b
+print(c)
+# Output:
+# array([ 0,  2,  6, 12])
+\end{minted}
+Prikproduktet bestemmes ved funktionen \texttt{np.dot(a,b)}.\\
+\subsection{Programstrukur}
+Den primære klasse i programmet er klassen \texttt{Layer}, som repræsenterer et lag i det neurale net. Den indeholder værdierne af knuderne, samt vægtene som går ind i laget. Desuden indeholder den en metode til at beregne værdien af hele netværket rekursivt. Netværket skal dog først initialiseres, hvilket gøres med funktionerne \texttt{createLayers(template)} og \texttt{randomizeLayers(layers, variance)}:
+\inputminted[firstline=36,lastline=39,gobble=4]{python3}{./Code/main.py}
+Funktionen \texttt{createLayers} laver en liste af lag med de givne størrelser:
+\inputminted[firstline=155,lastline=163]{python3}{./Code/main.py}
+\texttt{randomizeLayers} giver herefter hver vægt i lagene en tilfældig værdi:
+\inputminted[firstline=166,lastline=171]{python3}{./Code/main.py}
+\noindent Her bruges funktionen \texttt{np.vectorize} til at køre en funktion på alle elementer i en matrix på en kompakt måde. \texttt{vectorize} tager en funktion med et argument, og returnerer en funktion med et argument. Når man kører \texttt{np.vectorize(f)(m)}, vil den returnere en ny matrix, som er \texttt{m}, med \texttt{f} anvendt på alle værdier. I dette tilfælde gives \texttt{vectorize} en lambdafunktion som argument, som er en simpel måde at skrive en kort funktion som kun skal bruges en gang. Syntaksen:
+\begin{minted}{python3}
+h = np.vectorize(lambda x: g(x))
+\end{minted}
+Svarer til syntaksen:
+\begin{minted}{python3}
+def f(x):
+  return g(x)
+h = np.vectorize(f)
+\end{minted}
+I dette tilfælde ignoreres argumentet af lambdafunktionen, og i stedet returneres et tilfældigt tal i intervallet $[-variance;variance]$\\
+Når netværket er initialiseret, kan outputværdierne af et lag beregnes:
+\inputminted[firstline=34,lastline=55,highlightlines=51,gobble=4]{python3}{./Code/layer.py}
+For at beregne alle outputværdier i netværket, kaldes denne funktion på outputlaget, hvorefter beregningen vil bevæge sig bagud gennem det rekursive kald på linje 51. Outputværdien beregnes med funktionen \texttt{mlmath.sigmoid(x)}, som er implementeret som:
+\inputminted[firstline=4,lastline=5,mathescape]{python3}{./Code/mlmath.py}
+Bemærk at, der i denne funktion bruges \texttt{numpy}s eksponentialfunktion, \texttt{np.exp(x)}, da den kan arbejde med matricer og vektorer hurtigere end den indbyggede \texttt{math.exp(x)} \parencite{numpy}.
+Ud fra outputværdierne, kan en liste af værdierne $\delta_j$ bygges, ved først at bygge en liste fyldt med nuller, som har samme længde som antallet af outputværdier. Denne liste kan herefter fyldes ud ved ligning \ref{eq:delta}:
+\begin{minted}{python3}
+error = [0] * len(outputLayer.outputValues) 
+for i in range(len(outputLayer.outputValues)):
+  error[i] = (
+    outputLayer.outputValues[i]
+    * (1 - outputLayer.outputValues[i]) 
+    * (target[i] - outputLayer.outputValues[i])
+  )
+\end{minted}
+Her bør det dog bemærkes at alt indekseres ud fra værdien \texttt{i}. Dette kan derfor omskrives til en enkelt vektoroperation for en stor forbedring i hastigheden:
+\begin{minted}{python3}
+error = (
+  outputLayer.outputValues
+  * (1 - outputLayer.outputValues)
+  * (target - outputLayer.outputValues)
+)
+\end{minted}
+Herfra kan ændringen af hver vægt bestemmes som det ydre produkt af \texttt{error}-vektoren og outputværdien af den knude som vægten går fra (Se ligning \ref{eq:wchange}):
+\inputminted[firstline=104,lastline=110,gobble=8]{python3}{./Code/main.py}
+$\delta$-værdierne for det næste lag beregnes nu, med en omskreven udgave af ligning \ref{eq:delta_h}, som udnytter hastigheden af \texttt{numpy}s operationer på vektorer og matricer:
+\inputminted[firstline=111,lastline=115,gobble=8]{python3}{./Code/main.py}
+Efter listen af ændringer er fyldt ud, anvendes disse ændringer til netværket. Dette gøres ved at gå igennem listen af lag og listen af ændringer samtidigt, ved hjælp af \texttt{zip}-funktionen. Bemærk at inputlaget ekskluderes fra listen, ved operationen \texttt{layers[1:]}, da der ikke er nogen vægte som går ind i inputlaget, og der kan derfor ikke foretages ændringer på dens vægte.
+\inputminted[firstline=116,lastline=118,gobble=8]{python3}{./Code/main.py}
+Herfra kan netværket testes. Præcisionen måles ved at sammenligne indekset af en største værdi i outputvektoren, som findes ved numpy-funktionen \texttt{np.argmax(v)}, med det korrekte svar, \texttt{t.label}:
+\inputminted[firstline=121,lastline=131]{python3}{./Code/main.py}
+Funktionen \texttt{tqdm} fra biblioteket \texttt{tqdm} bruges her til at vise en statuslinje i konsollen. Funktionelt har det samme betydning som:
+\mint[linenos=false]{python3}|for t in dpTest.images|
+
+\subsection{Resultat}
+Efter blot 60,000 iterationer af stokastisk gradient nedstigning igennem MNIST-datasættet, bestående af 60,000 gråskalabilleder af tal i en opløsning af 28x28 pixels \parencite{mnist}, har modellen opnået en præcision på ca. 92.7\%. En graf af præcisionen over tid, kan ses på figur \ref{fig:accGraph}.
+\begin{figure}[ht]
+  \centering
+  \includestandalone{Images/accGraph}
+  \caption{På x-aksen vises antallet af træningseksempler modellen er blevet vist, på y-aksen vises gættepræcisionen på de 10,000 testeksempler. Modellen er blevet testet på de 10,000 testeksempler hver femhundrede træningseksempel.}
+  
+  \label{fig:accGraph}
+\end{figure}
+Instruktioner til at hente programmets kildekode og køre den findes i bilag \ref{bil:source}.
+
+\end{document}

@@ -1,0 +1,54 @@
+\documentclass[10pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage{tikz}
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.15}
+\usepackage{mathrsfs}
+\usetikzlibrary{arrows}
+\pagestyle{empty}
+\begin{document}
+\definecolor{ffwwqq}{rgb}{1.,0.4,0.}
+\definecolor{ududff}{rgb}{0.30196078431372547,0.30196078431372547,1.}
+\begin{tikzpicture}[line cap=round,line join=round,>=triangle 45,x=1.0cm,y=1.0cm]
+\begin{axis}[
+x=1.0cm,y=1.0cm,
+axis lines=middle,
+ymajorgrids=true,
+xmajorgrids=true,
+xmin=0.0,
+xmax=12.0,
+ymin=0.0,
+ymax=13.0,
+xtick={0.0,1.0,...,12.0},
+ytick={0.0,1.0,...,13.0},]
+\clip(0.,0.) rectangle (12.,13.);
+\begin{scriptsize}
+\draw [fill=ududff] (1.82,6.32) circle (2.5pt);
+\draw [fill=ududff] (4.08,9.18) circle (2.5pt);
+\draw [fill=ududff] (5.,8.) circle (2.5pt);
+\draw [fill=ududff] (2.24,8.2) circle (2.5pt);
+\draw [fill=ududff] (1.72,10.5) circle (2.5pt);
+\draw [fill=ududff] (3.18,7.72) circle (2.5pt);
+\draw [fill=ududff] (1.64,7.48) circle (2.5pt);
+\draw [fill=ududff] (7.78,10.18) circle (2.5pt);
+\draw [fill=ududff] (3.46,11.72) circle (2.5pt);
+\draw [fill=ududff] (6.54,9.6) circle (2.5pt);
+\draw [fill=ududff] (5.88,12.32) circle (2.5pt);
+\draw [fill=ffwwqq] (2.94,4.52) circle (2.5pt);
+\draw [fill=ffwwqq] (4.04,5.72) circle (2.5pt);
+\draw [fill=ffwwqq] (3.48,5.98) circle (2.5pt);
+\draw [fill=ffwwqq] (6.98,5.32) circle (2.5pt);
+\draw [fill=ffwwqq] (7.24,6.9) circle (2.5pt);
+\draw [fill=ffwwqq] (10.44,6.86) circle (2.5pt);
+\draw [fill=ffwwqq] (7.16,8.02) circle (2.5pt);
+\draw [fill=ffwwqq] (5.86,5.46) circle (2.5pt);
+\draw [fill=ffwwqq] (5.3,3.58) circle (2.5pt);
+\draw [fill=ffwwqq] (11.28,5.68) circle (2.5pt);
+\draw [fill=ffwwqq] (7.44,4.22) circle (2.5pt);
+\draw [fill=ffwwqq] (9.,3.) circle (2.5pt);
+\draw [fill=ffwwqq] (6.74,2.58) circle (2.5pt);
+\draw [fill=ffwwqq] (3.32,2.8) circle (2.5pt);
+\end{scriptsize}
+\end{axis}
+\end{tikzpicture}
+\end{document}

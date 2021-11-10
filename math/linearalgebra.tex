@@ -1,0 +1,180 @@
+\documentclass[../SOP.tex]{subfile}
+
+\begin{document}
+\begin{equation*}
+  \bm{v} = \begin{bmatrix} 1 \\ 2 \\ 3 \\ 4 \end{bmatrix} \in \R^4
+\end{equation*}
+\begin{equation*}
+  \begin{bmatrix}
+    a_1 \\ b_1 \\ c_1 \\ \vdots
+  \end{bmatrix}
+  +
+  \begin{bmatrix}
+   a_2 \\ b_2 \\ c_2 \\ \vdots
+  \end{bmatrix}
+  =
+  \begin{bmatrix}
+    a_1+a_2 \\ b_1+b_2 \\ c_1+c_2 \\ \vdots
+  \end{bmatrix}
+\end{equation*}
+\begin{equation*}
+  \lambda 
+  \begin{bmatrix}
+    a \\ b \\ c \\ \vdots
+  \end{bmatrix}
+  =
+  \begin{bmatrix}
+    \lambda a \\ \lambda b \\ \lambda c \\ \vdots
+  \end{bmatrix}
+\end{equation*}
+\begin{equation*}
+  \begin{bmatrix}
+    a_1 \\ b_1 \\ c_1 \\ \vdots
+  \end{bmatrix}
+  \cdot
+  \begin{bmatrix}
+    a_2 \\ b_2 \\ c_2 \\ \vdots
+  \end{bmatrix}
+  = a_1a_2 + b_1b_2 + c_1c_2
+\end{equation*}
+\begin{gather*}
+  a=\begin{bmatrix}
+    a_1 \\ a_2 \\ \vdots
+  \end{bmatrix}
+  \\
+  a^T=\begin{bmatrix}
+    a_1 & a_2 & \cdots
+  \end{bmatrix}
+\end{gather*}
+\begin{equation*}
+  \begin{bmatrix}
+    a_1 \\ b_1 \\ c_1
+  \end{bmatrix}
+  \otimes
+  \begin{bmatrix}
+    a_2 \\ b_2 \\ c_2
+  \end{bmatrix}
+  =
+  \begin{bmatrix}
+  a_1a_2 & a_1b_2 & a_1c_2 \\
+  b_1a_2 & b_1b_2 & b_1c_2 \\
+  c_1a_2 & c_1b_2 & c_1c_2
+  \end{bmatrix}
+\end{equation*}
+\begin{equation*}
+  \mathbf{A}=\begin{bmatrix}
+    a_{11} & a_{12} & \cdots & a_{1n} \\
+    a_{21} & a_{22} & \cdots & a_{2n} \\
+    \vdots & \vdots & \ddots & \vdots \\
+    a_{m1} & a_{m2} & \cdots & a_{mn}
+  \end{bmatrix}
+  \in \R^{m\times n}
+\end{equation*}
+\begin{equation*}
+  \begin{bmatrix}
+    a_{11} & a_{12} & \cdots & a_{1n} \\
+    a_{21} & a_{22} & \cdots & a_{2n} \\
+    \vdots & \vdots & \ddots & \vdots \\
+    a_{m1} & a_{m2} & \cdots & a_{mn}
+  \end{bmatrix}
+  +
+  \begin{bmatrix}
+    b_{11} & b_{12} & \cdots & b_{1n} \\
+    b_{21} & b_{22} & \cdots & b_{2n} \\
+    \vdots & \vdots & \ddots & \vdots \\
+    b_{m1} & b_{m2} & \cdots & b_{mn}
+  \end{bmatrix}
+  =
+  \begin{bmatrix}
+    a_{11} + b_{11} & a_{12} + b_{12} & \cdots \\
+    a_{21} + b_{21} & a_{22} + b_{22} & \cdots \\
+    \vdots & \vdots & \ddots \\
+    a_{m1} + b_{m1} & a_{m2} + b_{m2} & \cdots 
+  \end{bmatrix}
+\end{equation*}
+\begin{equation*}
+  \lambda
+  \begin{bmatrix}
+    a_{11} & a_{12} & \cdots & a_{1n} \\
+    a_{21} & a_{22} & \cdots & a_{2n} \\
+    \vdots & \vdots & \ddots & \vdots \\
+    a_{m1} & a_{m2} & \cdots & a_{mn}
+  \end{bmatrix}
+  =
+  \begin{bmatrix}
+    \lambda a_{11} & \lambda a_{12} & \cdots & \lambda a_{1n} \\
+    \lambda a_{21} & \lambda a_{22} & \cdots & \lambda a_{2n} \\
+    \vdots & \vdots & \ddots & \vdots \\
+    \lambda a_{m1} & \lambda a_{m2} & \cdots & \lambda a_{mn}
+  \end{bmatrix}
+\end{equation*}
+\begin{align*}
+  c_{ij} &= \sum_{l=1}^n a_{il}b_{lj}\\
+  i&=1,\dots,m\\
+  j&=1,\dots,k
+\end{align*}
+\begin{equation*}
+  \mathbf{A}\cdot\mathbf{B}\neq\mathbf{B}\cdot\mathbf{A}
+\end{equation*}
+\begin{gather*}
+  \underbrace{\mathbf{A}}_{n\times k}\cdot\underbrace{\mathbf{B}}_{k\times m}=\underbrace{\mathbf{C}}_{n\times m}\\
+  k=k\\
+  \underbrace{\mathbf{B}}_{k\times m}\cdot\underbrace{\mathbf{A}}_{n\times k}=\ ?\\
+  m\neq n
+\end{gather*}
+\begin{equation*}
+  \begin{bmatrix}
+    a_{11} & a_{12} \\
+    a_{21} & a_{22} \\
+    a_{31} & a_{32}
+  \end{bmatrix}
+  \cdot
+  \begin{bmatrix}
+    b_1 \\ b_2
+  \end{bmatrix}
+  =
+  \begin{bmatrix}
+    a_{11}b_1 + a_{12}b_2\\
+    a_{21}b_1 + a_{22}b_2 \\
+    a_{31}b_1 + a_{32}b_2
+  \end{bmatrix}
+\end{equation*}
+\begin{gather*}
+  A_{ij}=(A^T)_{ji}\\
+  A\in \R^{n\times m}\\
+  A^T \in \R^{m\times n}
+\end{gather*}
+\begin{equation*}
+  \begin{bmatrix}
+  a_1 \\ b_1 \\ c_1
+  \end{bmatrix}
+  \odot
+  \begin{bmatrix}
+    a_2 \\ b_2 \\ c_2
+  \end{bmatrix}
+  =
+  \begin{bmatrix}
+    a_1a_2 \\ b_1b_2 \\ c_1c_2
+  \end{bmatrix}
+\end{equation*}
+\begin{equation*}
+  f\colon Dm \rightarrow Vm
+\end{equation*}
+\begin{equation*}
+  f\colon \R^3 \rightarrow \R
+\end{equation*}
+\begin{gather*}
+  f(x,y)=xy^2+2+x^2\\
+  \pfrac{f}{x}=y^2+2x\\
+  \pfrac{f}{y}=2xy
+\end{gather*}
+\begin{equation*}
+  \nabla f(x,y) = \begin{bmatrix}
+    \pfrac{f}{x} & \pfrac{f}{y}
+  \end{bmatrix}
+  =
+  \begin{bmatrix}
+    y^2+2x & 2xy
+  \end{bmatrix}
+\end{equation*}
+\end{document}

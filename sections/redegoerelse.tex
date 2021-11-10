@@ -1,0 +1,66 @@
+\documentclass[../SOP.tex]{subfiles}
+
+\begin{document}
+\section{Introduktion til Machine Learning}
+I dette afsnit vil der redegøres for motivationen af Machine Learning, herunder problemerne som løses af Machine Learning. 
+
+\subsection{Motivation}
+En computers styrke er generelt problemer hvor løsningen kan skrives som en liste af instruktioner. Der kan eksempelvis beskrives en algoritme for at finde kvadratroden af et tal. Det er dog sværere, at beskrive en algoritme for at bestemme om et billede indeholder et tal, og hvilket.
+Selvom det i princippet er muligt at beskrive og implementere en sådan algoritme, ville det være særdeles upraktisk. Her kan der i stedet ses til mennesket for at finde ud af hvordan tal genkendes. Når en person ser et tal, gør personen ikke brug af nogen bestemt algoritme, det er noget personen ved intuitivt. Denne intuition er dannet på baggrund af de tusindvis af tal personen har set i løbet af sin levetid, der har gjort at personen kan identificere bestemte træk som hvert tal indeholder. Ideen bag Machine Learning er altså at kunne vise\footnote{Ordet ``vise'' er en personificering. Når det benyttes, menes der at give programmet datasættet som parameter} et program et datasæt af billeder af tal, samt et svarark, som indeholder hvilket tal der er blevet vist. Hvis programmet forudsiger det forkerte svar, justerer det sine interne regler, således at det er tættere på at svare rigtigt. Machine Learning er det område indenfor datalogi der beskæftiger sig med disse problemer. En underkategori af Machine Learning er kunstige neurale netværk, som er inspireret af hjernen. Ligesom hjernen består af et komplekst forbundet netværk af nerver, består et neuralt netværk af knuder som er forbundne med hinanden. \parencite{mitch}
+\subsection{Det neurale netværks egenskaber}
+Hver knude har en inputværdi og en outputværdi. I knuder med en foregående knude bestemmes inputværdien som en vægtet sum af de foregående knuder, samt et bias, for at rette op på systematiske fejl. Bemærk at vægten skrives som $w_{til,fra}$.
+\begin{equation}
+  x_i=b_i+\sum_{k=0}^{n} w_{ik}o_k
+  \label{eq:inputvalue}
+\end{equation}
+Outputværdien kan bestemmes som funktionsværdien af en aktiveringsfunktion (også kaldet en outputfunktion), $\alpha(x)$ til inputværdien
+\begin{equation}
+  o_i=\alpha(x_i)
+  \label{eq:outputvalue}
+\end{equation}
+
+\begin{figure}[ht]
+  \centering
+  \includestandalone[mode=buildnew]{Images/simplenet}
+  \caption{Et simpelt neuralt netværk, bestående af en inputknude og en outputknude}
+  \label{fig:simplenet}
+\end{figure}
+Der findes flere forskellige typer neurale netværk, men der vil her være fokus på såkaldte \emph{feed-forward netværk}.\\
+\begin{definition}[Feed-forward netværk]
+  Et feed-forward netværk har følgende egenskaber \parencite{feedforward}:
+  \begin{enumerate}
+    \item Netværket er \emph{acyklisk} (Se figur \ref{fig:cyclic} og \ref{fig:acyclic})
+    \item Netværket består af \emph{lag} af knuder. Hver knude i et lag er forbundet til alle knuder i det forrige og næste lag.
+    \item Knuder i samme lag er ikke forbundet med hinanden.
+  \end{enumerate}
+\end{definition}
+\begin{figure}[h]
+  \centering
+  \begin{minipage}[b]{0.45\textwidth}
+    \includestandalone[mode=buildnew]{Images/cyclic}
+    \caption{Et cyklisk netværk. Bemærk at en af de skjulte knuder forbinder til en tidligere knude}
+    \label{fig:cyclic}
+  \end{minipage}
+  \hfill
+  \begin{minipage}[b]{0.45\textwidth}
+    \includestandalone[mode=buildnew]{Images/neuralnet-notext}
+    \caption{Et acyklisk neuralt netværk. Dette er desuden et gyldigt feed-forward netværk}
+    \label{fig:acyclic}
+  \end{minipage}
+\end{figure}
+Lagene i et neuralt netværk kan deles ind i tre forskellige typer:
+\begin{enumerate}
+  \item \emph{Inputlag}, hvor data indføres. Inputlaget har ingen foregående lag. Et feed-forward netværk har nøjagtig et inputlag.
+  \item \emph{Outputlag}, hvor resultatet kan aflæses. Outputlaget er det sidste lag i netværket. Et feed-forward netværk har nøjagtig et outputlag.
+  \item \emph{Skjulte lag}, som ligger imellem inputlaget og outputlaget.
+\end{enumerate}
+
+
+\begin{figure}[ht]
+  \centering
+  \includestandalone{Images/neuralnet}
+  \caption{Et feed-forward netværk}
+  \label{fig:feed-forward}
+\end{figure}
+
+\end{document}

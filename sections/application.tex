@@ -1,0 +1,10 @@
+\documentclass[../SOP.tex]{subfile}
+
+\begin{document}
+\section{Anvendelse af neurale netværk}
+Modellen der heri er trænet kan kun genkende håndskrevne tal i en relativt lille opløsning og uden farver. Konceptet af neurale netværk kan dog udvides til at strække sig over mange områder i den virkelige verden. En af fordelene ved Machine Learning er at det, i modsætning til traditionelle programmer, kræver en minimal mængde justering for at kunne behandle andre datasæt med andre regler. Dette kan gøres ved blot at justere antallet af input-, output-, og skjulte knuder i netværket, samt give det et passende datasæt.
+Eksemplet med håndskrevne tal kan for eksempel udvides til at inkludere bogstaver ved at forlænge outputlaget til at bestå af 36 knuder (39 hvis æ, ø og å skal inkluderes), i stedet for 10.
+\subsection{Neurale netværk i lægekundskaben}
+Neurale netværk behøves ikke nødvendigvis kun at bruges til billedbehandling. Neurale netværk er også blevet brugt inden for medicin til at finde hjertesygdomme ud fra \emph{elektrokardiogrammer} (også kaldet et EKG)\footnote{Et EKG er en graf over hjertets elektriske impulser \parencite{ekg}}. Netværkets inputs har været måleværdierne, og outputværdierne har repræsenteret en af de mulige sygdomme i datasættet, eller normal (ingen sygdom). Datasættet har bestået af 3266 tilfælde, samt køn og alder, hvori hvert tilfælde lider af en eller ingen af de mulige sygdomme. På grundlag af dette datasæt har netværket kunne opnå en præcision på 68.8\%. \parencite{ecg}
+
+\end{document}

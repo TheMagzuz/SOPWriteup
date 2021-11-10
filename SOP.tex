@@ -1,0 +1,156 @@
+% arara: pdflatex: { shell: yes}
+%% arara: biber
+%% arara: pdflatex: { shell: yes}
+% arara: pdflatex: { shell: yes}
+
+\documentclass[a4paper, 12pt]{article}
+
+\usepackage{preamble}
+
+\setlang{danish}
+\usebib
+
+\usepackage{datetime}
+\newdate{date}{17}{12}{2020}
+\date{\displaydate{date}}
+
+% Put a comma between the author and year
+\renewcommand*{\nameyeardelim}{\addcomma\space}
+
+\usepackage[cache=false]{minted}
+\usepackage{xcolor}
+\definecolor{LightGray}{gray}{0.9}
+
+\setminted[python3]{linenos, bgcolor=LightGray,breaklines}
+%\setminted[python3]{bgcolor=LightGray}
+
+\usepackage{tikz}
+
+
+\usemintedstyle{borland}
+
+%New colors defined below
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolor}{rgb}{0.95,0.95,0.92}
+
+\usepackage[mode=buildnew]{standalone}
+
+% Boxes
+\usepackage{mdframed}
+
+% Theorems
+\usepackage{amsthm}
+\theoremstyle{definition}
+
+\newmdtheoremenv[linecolor=white!0,backgroundcolor=black!10]{definition}{Definition}[section]
+\newmdtheoremenv[linecolor=white!0,backgroundcolor=black!10]{bevis}{Bevis}[section]
+
+% Keep theorems on the same page if possible
+\AtBeginEnvironment{bevis}{\begin{minipage}{\textwidth}}
+\AtEndEnvironment{bevis}{\end{minipage}}
+
+\AtBeginEnvironment{definition}{\begin{minipage}{\textwidth}}
+\AtEndEnvironment{definition}{\end{minipage}}
+
+\graphicspath{{./Images/}{../Images/}}
+
+% Allow text within enumerates
+\usepackage{enumitem}
+
+\addbibresource{ref.bib}
+
+\usepackage{subfiles}
+
+\begin{document}
+\nohf{}
+
+\title{Machine Learning}
+\author{Markus Ketilsø Dam\\ \normalsize under vejledning af [SLETTET] og [SLETTET]}	
+\maketitle
+\begin{center}
+  \includestandalone[width=\textwidth, height=0.6\textheight, keepaspectratio]{Images/neuralnet-notext}
+\end{center}
+\newpage
+\section*{Titelblad}	
+\subsection*{Opgaveformulering}
+Der ønskes en redegørelse for hvad konceptet Machine Learning dækker over, med særligt fokus på neurale netværker.\\
+Med udgangspunkt i et konkret eksempel ønskes en analyse af hvordan et kunstigt neuralt netværk er opbygget. Herunder skal centrale dele af den matematik der ligger bag kunstige neurale netværk beskrives.\\
+Lav et program, der implementerer en algoritme, der illustrer hvordan et konkret datasæt kan behandles i et neuralt netværk. Kommentér hvilke matematiske og programmeringsmæssige overvejelser der er gjort undervejs. Vurdér betydningen af Machine Learning i moderne teknologier.
+
+\subsection*{Omfang}
+Antal tegn (eksl. forside, indholdsfortegnelse, resume, figurer, bilag, referencer og fodnoter): 24501\\
+Sider matematik: 5\\
+I alt: 15.2 normalsider
+
+\section*{Resume}
+Opgaven omhandler Machine Learning, en gren af datalogien som beskæftiger sig med at bruge store mængder af data til at finde mønstre automatisk. Der bliver i opgaven redegjort for de grundlæggende principper bag den lineære algebra, samt partiel differentiering, som ligger til grund for Machine Learning. Herefter bliver der redegjort for hvad et neuralt netværk er, hvordan dets output kan fortolkes, samt kendetegnene af to af de mest almindelige problemer en Machine Learning model kan støde på. Der bliver desuden redegjort for egenskaberne af et feedforward neuralt netværk, og hvordan forskellige parametre og datarepræsentationer i et neuralt netværk vælges. Efterfølgende bliver den specifikke algoritme for at træne et feedforward neuralt netværk udledt, ved hjælp af partiel differentiering af funktioner med flere inputs. Der bliver herefter implementeret et neuralt netværk i Python, som trænes på et datasæt af håndskrevne tal, hvor det opnår en præcision på ca. 92.6\%.
+
+
+\newpage
+\tableofcontents
+\newpage
+
+\pagestyle{fancy}
+\fancyhf{}
+\pagenumberinfooter
+\rhead{Markus Ketilsø Dam}
+\lhead{HTX Frederikshavn}
+
+\section{Indledning}
+Computere er bedre end mennesker til mange ting, men der er også mange ting som mennesker kan gøre let, mens det nærmest virker umuligt for en computer. Mennesker kan for eksempel let genkende et håndskrevet ciffer, mens det ville være svært at lave et program til at gøre det samme. Machine Learning er den gren af datalogien, som arbejder med disse problemer. Løsningen til dem er inspireret af måden som mennesker selv lærer at gøre disse ting på: Ved at se en masse eksempler, og ud fra disse udarbejde et komplekst regelsæt, som kan bruges til at løse problemet. Der vil i denne opgave arbejdes med en bestemt gren af Machine Learning kaldet \emph{neurale netværk}, som er inspireret af den menneskelige biologi.
+
+\section{Problemformulering}
+Der vil i denne opgave arbejdes med problemstillingen ``Hvordan kan et neuralt netværk til billedgenkendelse implementeres?''. I besvarelsen af denne problemstilling, vil der blive svaret på følgende underspørgsmål:
+\begin{itemize}
+  \item Hvad er lineær algebra?
+  \item Hvad er et neuralt netværk?
+  \item Hvordan repræsenteres billeder i et neuralt netværk?
+  \item Hvilke problemer kan en Machine Learning model have?
+  \item Hvordan trænes et feedforward neuralt netværk?
+  \item Hvordan kan neurale netværk anvendes i moderne teknologier?
+\end{itemize}
+
+\subfile{sections/linearalgebra}
+\subfile{sections/redegoerelse}
+\subfile{sections/design}
+\subfile{sections/backpropogation}
+\subfile{sections/implementation}
+\subfile{sections/application}
+
+\section{Konklusion}
+Der er i opgaven redegjort for de grundlæggende principper i den lineære algebra, heriblandt vektorer og matricer. Der er desuden redegjort for partiel differentiering, og hvordan hældningen af en funktion med flere argumenter, eller matricer eller vektorer som argumenter, bestemmes. Herefter er der forklaret de egenskaber som kendetegner et neuralt netværk, samt hvordan billeder repræsenteres i det. De mest almindelige problemer i Machine Learning, underfitting og overfitting, er forklaret. Herefter udledes de essentielle formler, som bruges til at træne et neuralt netværk. Alt dette er blevet brugt til at implementere et neuralt netværk i programmeringssproget \emph{Python}. Dette netværk er blevet trænet på et datasæt af 60,000 håndskrevne tal, og har opnået en præcision på ca. 92.7\% på et separat evalueringssæt. Endeligt er der perspektiveret til hvordan neurale netværk kan bruges i moderne teknologier, mere specifikt deres brug i lægevidenskaben til analyse af elektrokardiogrammer, for at identificere potentielle hjertesygdomme.
+
+\newpage
+\printbibliography
+
+\newpage
+\renewcommand{\thesection}{\Alph{section}}
+\renewcommand{\thesubsection}{\thesection\arabic{subsection}}
+\setcounter{section}{0}
+
+\section{Bilag}
+\subsection{Kildekode til neuralt netværk} \label{bil:source}
+Kildekoden til programmet kan tilgås ved \url{https://github.com/TheMagzuz/SOPML}. Programmet kan hentes med
+\mint{bash}|git clone https://github.com/TheMagzuz/SOPML|
+Krævede pakker kan installeres med
+\mint{bash}|pip install -r requirements.txt|
+Hvorefter programmet kan køres med
+\mint{bash}|python3 main.py|
+For at programmet kan køre, skal der være følgende filer i samme mappe som \texttt{main.py}:
+\begin{itemize}
+  \item \texttt{train-images.idx3-ubyte} og \texttt{t10k-images.idx3-ubyte}, som er billedfilerne for hhv. træningssættet og testsættet i MNIST formaten.
+  \item \texttt{train-labels.idx1-ubyte} og \texttt{t10k-labels.idx1-ubyte}, som er de korrekte svar for de tilsvarende billeder
+\end{itemize}
+Det benyttede datasæt kan tilgås her: \url{http://yann.lecun.com/exdb/mnist/}
+Bemærk at filerne som hentes herfra vil være komprimerede, og skal udpakkes
+Programmet tager følgende argumenter, som alle er valgfrie:
+\begin{description}
+  \item[-i] Modellen som programmet skal benytte. Hvis denne værdi ikke er sat, initialiseres en ny model med tilfældige vægte
+  \item[-m] Filen hvor modellen skal gemmes til. Modellen gemmes efter hver epoke (Fulde runde gennem træningssættet)
+  \item[-c] Filen hvor historikken af modellens præcision skal gemmes. Filen er en kommaadskilt lise af punkter, med koordinaterne (træningseksempler, præcision)
+  \item[-f] Antallet af træningseksempler mellem hver evaluering af modellen
+  \item[-e] Antallet af epoker programmet skal køre før det stopper
+\end{description}
+\end{document}
